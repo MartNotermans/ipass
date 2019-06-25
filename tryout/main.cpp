@@ -36,11 +36,11 @@ public:
 
         for(int16_t bit_cnt = 15; bit_cnt >= 0; bit_cnt--){
             din.write( (data_b & (1<<bit_cnt) ) !=0 );
-            hwlib::cout<<( (data_b & (1<<bit_cnt) ) !=0);
+//            hwlib::cout<<( (data_b & (1<<bit_cnt) ) !=0);
             pulse_clk();
         }
 
-        hwlib::cout<<"\n";
+//        hwlib::cout<<"\n";
         cs.write(1);
     }
 
@@ -53,8 +53,39 @@ public:
         }
     }
 
+    //send a dubbel array of boolians to 1 screen
     void send_array(bool pixels[8][8]){
-        for()
+        for(int i = 0; i < 8; i++){
+            uint8_t data = 0;
+            for(int j = 0; j < 8; j++){
+                data = data | ( pixels[j][i]<< j );
+//                hwlib::cout<<( (data & (1<<j) ) !=0);
+            }
+//            hwlib::cout<<"\n";
+            uint8_t row = i+1;
+            uint16_t row_data = ( (row<<8) | data);
+            send_data(row_data);
+        }
+    }
+
+    void move(bool pixels[8][8]){
+        for(int i = 8; i > 0; i--){
+            bool temp[8][8];
+            for(int y = 0; y < 8; y++){
+                for(int x = 0; x < 8; x++){
+                    if( (x+i) > 8){
+                        temp[y][x] = 0;
+                    }else{
+                        temp[y][x] = pixels[y][x+i-1];
+                    }
+//                    hwlib::cout<<temp[y][x];
+                }
+//                hwlib::cout<<"\n";
+            }
+            send_array(temp);
+//            hwlib::cout<<"--------\n";
+            hwlib::wait_ms(50);
+        }
     }
 
     // // send 16 zero's as no op
@@ -147,19 +178,6 @@ public:
     // }
 //brightness -----------------------------------------------------------------------------------------------    
 
-    void move(int pixels[8]){
-        for(int i = 8; i > 0; i--){
-            int data[8];
-            for(int j = 0; j < 8; j++){
-                data[j] = pixels[j]<<i;
-            }
-            send_rows(data);
-            hwlib::cout<<i;
-            hwlib::wait_ms(200);
-        }
-    }
-
-
 };
 
 int main(){
@@ -180,13 +198,13 @@ int main(){
     
     hwlib::wait_ms(1000);
 
-    int letter_A [8] = {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
+    //int letter_A [8] = {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
     // int letter_B [8] = {0x41, 0x7F, 0x7F, 0x49, 0x49, 0x7F, 0x36, 0x00};
     // int letter_S [8] = {0x26, 0x6F, 0x4D, 0x59, 0x73, 0x32, 0x00, 0x00};
 
     //int green_lantern [8] = { 0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00 };
 
-    bool 2array_A[8][8] = {
+    bool array_A[8][8] = {
                             {0,0,0,0,0,0,0,0},
                             {0,0,0,1,1,0,0,0},
                             {0,0,1,1,1,1,0,0},
@@ -203,7 +221,8 @@ int main(){
     // hwlib::wait_ms(1000);
     // leds.send_rows(letter_S);
 
-    leds.move(letter_A);
+    //leds.move(letter_A);
+    leds.move(array_A);
 
     // int testing = 0b0000000101011101;
     // leds.send_data(testing);
