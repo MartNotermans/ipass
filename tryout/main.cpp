@@ -53,6 +53,10 @@ public:
         }
     }
 
+    void send_array(bool pixels[8][8]){
+        for()
+    }
+
     // // send 16 zero's as no op
     // void no_op(int times = 1){
     //     for(int i = 0; i < times*8; i++){
@@ -143,6 +147,19 @@ public:
     // }
 //brightness -----------------------------------------------------------------------------------------------    
 
+    void move(int pixels[8]){
+        for(int i = 8; i > 0; i--){
+            int data[8];
+            for(int j = 0; j < 8; j++){
+                data[j] = pixels[j]<<i;
+            }
+            send_rows(data);
+            hwlib::cout<<i;
+            hwlib::wait_ms(200);
+        }
+    }
+
+
 };
 
 int main(){
@@ -159,16 +176,34 @@ int main(){
     leds.intensity_low();
     leds.shutdown_off();
     leds.clear();
-    hwlib::cout<<"---------------\n";
+    hwlib::cout<<"----------------\n";//---------------------------------------------------------------------------------
     
     hwlib::wait_ms(1000);
 
-    //int letter_A [8] = {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
-    int green_lantern [8] = { 0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00  };
+    int letter_A [8] = {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
+    // int letter_B [8] = {0x41, 0x7F, 0x7F, 0x49, 0x49, 0x7F, 0x36, 0x00};
+    // int letter_S [8] = {0x26, 0x6F, 0x4D, 0x59, 0x73, 0x32, 0x00, 0x00};
 
-    leds.send_rows(green_lantern);
+    //int green_lantern [8] = { 0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00 };
 
-    //hwlib::wait_ms(1000);
+    bool 2array_A[8][8] = {
+                            {0,0,0,0,0,0,0,0},
+                            {0,0,0,1,1,0,0,0},
+                            {0,0,1,1,1,1,0,0},
+                            {0,1,1,0,0,1,1,0},
+                            {0,1,1,0,0,1,1,0},
+                            {0,1,1,1,1,1,1,0},
+                            {0,1,1,0,0,1,1,0},
+                            {0,1,1,0,0,1,1,0}
+                            };
+
+    // leds.send_rows(letter_B);
+    // hwlib::wait_ms(1000);
+    // leds.send_rows(letter_A);
+    // hwlib::wait_ms(1000);
+    // leds.send_rows(letter_S);
+
+    leds.move(letter_A);
 
     // int testing = 0b0000000101011101;
     // leds.send_data(testing);
