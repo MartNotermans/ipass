@@ -68,7 +68,8 @@ public:
         }
     }
 
-    void move(bool pixels[8][8]){
+    //moves a matrix on the screen from the left to the middle
+    void move(bool pixels[8][8], int delay = 50){
         for(int i = 8; i > 0; i--){
             bool temp[8][8];
             for(int y = 0; y < 8; y++){
@@ -84,16 +85,37 @@ public:
             }
             send_array(temp);
 //            hwlib::cout<<"--------\n";
-            hwlib::wait_ms(50);
+            hwlib::wait_ms(delay);
         }
     }
 
-    // // send 16 zero's as no op
-    // void no_op(int times = 1){
-    //     for(int i = 0; i < times*8; i++){
-    //         din.write(0);
+    // void move2(bool pixels[8][8]){
+    //     for(int i = 8; i > -8; i--){
+    //         bool temp[8][8];
+    //         for(int y = 0; y < 8; y++){
+    //             for(int x = 0; x < 8; x++){
+    //                 if( (x+i) > 8){
+    //                     temp[y][x] = 0;
+    //                 }else{
+    //                     temp[y][x] = pixels[y][x+i-1];
+    //                 }
+    //                 hwlib::cout<<temp[y][x];
+    //             }
+    //             hwlib::cout<<"\n";
+    //         }
+    //         send_array(temp);
+    //         hwlib::cout<<i<<"  -----\n";
+    //         hwlib::wait_ms(20);
     //     }
     // }
+
+    // send 16 zero's as no op
+    void no_op(int times = 1){
+        for(int i = 0; i < times*8; i++){
+            din.write(0);
+            pulse_clk();
+        }
+    }
 
     //send an empty screen via write()
     void clear(){
@@ -147,14 +169,14 @@ public:
         send_data(high);
     }
 
-    // void flash(int times, int speed = 150){
-    //     for(int i = 0; i< times; i++){
-    //         send_data(high);
-    //         hwlib::wait_ms(speed);
-    //         send_data(low);
-    //         hwlib::wait_ms(speed);
-    //     }
-    // }
+    void flash(int times, int speed = 150){
+        for(int i = 0; i< times; i++){
+            send_data(high);
+            hwlib::wait_ms(speed);
+            send_data(low);
+            hwlib::wait_ms(speed);
+        }
+    }
 
     // void pulse(int times, int speed = 40){
     //     for(int i = 0; i< times; i++){
@@ -177,6 +199,58 @@ public:
     //     }
     // }
 //brightness -----------------------------------------------------------------------------------------------    
+
+    void snake(bool dot[8][8], int movement[16], int speed = 500){
+        send_array(dot);
+        hwlib::wait_ms(speed);
+        for(int i = 0; i < 16; i++){                        //loop door movement
+            if( (movement[i] == 1) | (movement[i] == 4) ){  //1 en 4 of 2 en 3
+//                hwlib::cout<<"1 of 4\n";
+                for(int y = 0; y < 8; y++){                 //loop door de rijen
+                    for(int x = 0; x < 8; x++){             //loop door 1 rij
+                        if(movement[i] == 1){
+                            //hwlib::cout<<"1\n";
+                            dot[y][x] = dot[y+1][x];
+                        }else if(movement[i] == 4){
+                            //hwlib::cout<<"4\n";
+                            dot[y][x] = dot[y][x+1];
+                        }
+                    }
+                }
+
+            }else{
+//                hwlib::cout<<"2 of 3\n";
+                for(int y = 8; y > 0; y--){                 //loop door de rijen
+                    for(int x = 8; x > 0; x--){             //loop door 1 rij
+                        if(movement[i] == 2){
+                            //hwlib::cout<<x<<">"<<x-1<<"\n";
+                            dot[y][x] = dot[y][x-1];
+                        }else if(movement[i] == 3){
+                            //hwlib::cout<<"3\n";
+                            dot[y][x] = dot[y-1][x];
+                        }
+                    }
+                }
+            }
+
+
+            for(int j = 0; j < 8; j++){                     //nieuwe rijen leeg maken
+                if(movement[i] == 1){
+                    dot[7][j] = 0;
+                }else if(movement[i] == 2){
+                    dot[j][0] = 0;
+                }else if(movement[i] == 3){
+                    dot[0][j] = 0;
+                }else if(movement[i] == 4){
+                    dot[j][7] = 0;
+                }
+            }
+
+            send_array(dot);
+            //hwlib::cout<<movement[i]<<"---\n";
+            hwlib::wait_ms(speed);
+        }
+    }
 
 };
 
@@ -204,16 +278,44 @@ int main(){
 
     //int green_lantern [8] = { 0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00 };
 
-    bool array_A[8][8] = {
+    // bool array_A[8][8] = {
+    //                         {0,0,0,0,0,0,0,0},
+    //                         {0,0,0,1,1,0,0,0},
+    //                         {0,0,1,1,1,1,0,0},
+    //                         {0,1,1,0,0,1,1,0},
+    //                         {0,1,1,0,0,1,1,0},
+    //                         {0,1,1,1,1,1,1,0},
+    //                         {0,1,1,0,0,1,1,0},
+    //                         {0,1,1,0,0,1,1,0}
+    //                         };
+
+    // leds.send_array(array_A);
+
+
+    bool dot[8][8] = {
+                            {0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0},
                             {0,0,0,0,0,0,0,0},
                             {0,0,0,1,1,0,0,0},
-                            {0,0,1,1,1,1,0,0},
-                            {0,1,1,0,0,1,1,0},
-                            {0,1,1,0,0,1,1,0},
-                            {0,1,1,1,1,1,1,0},
-                            {0,1,1,0,0,1,1,0},
-                            {0,1,1,0,0,1,1,0}
+                            {0,0,0,1,1,0,0,0},
+                            {0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0},
+                            {0,0,0,0,0,0,0,0}
                             };
+
+    //north | up    = 1
+    //east  | right = 2
+    //south | down  = 3
+    //west  | left  = 4
+    int movement[16] = {1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4};
+    //int movement2[4] = {1,2,3,4};
+    //leds.move(dot);
+    leds.snake(dot, movement);
+
+
+
+
+
 
     // leds.send_rows(letter_B);
     // hwlib::wait_ms(1000);
@@ -222,7 +324,7 @@ int main(){
     // leds.send_rows(letter_S);
 
     //leds.move(letter_A);
-    leds.move(array_A);
+    //leds.move(array_A, 20);
 
     // int testing = 0b0000000101011101;
     // leds.send_data(testing);
@@ -235,7 +337,7 @@ int main(){
 
 
 
-
+    //leds.flash(3);
 
     hwlib::cout<<"done\n";
 }

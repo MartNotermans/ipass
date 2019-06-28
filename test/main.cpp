@@ -36,31 +36,32 @@ public:
     void send_data(const int data, int screen = 0){
         uint16_t data_b = data;
         cs.write(0);
-        hwlib::cout<<"cs 0\n";
+        //hwlib::cout<<"cs 0\n";
 
         if(screen != 0){
-            hwlib::cout<<"before data "<< (screen-1) <<" \n";
-            for(int i = 1; i < (screen-1); i++){
-                no_op(2);
+//            hwlib::cout<<"no op "<< (n_screens - screen) <<" \n";
+            for(int i = 0; i < (n_screens - screen); i++){
+                no_op();
             }
         }
 
         for(int16_t bit_cnt = 15; bit_cnt >= 0; bit_cnt--){
             din.write( (data_b & (1<<bit_cnt) ) !=0 );
-            hwlib::cout<<( (data_b & (1<<bit_cnt) ) !=0);
+//            hwlib::cout<<( (data_b & (1<<bit_cnt) ) !=0);
             pulse_clk();
         }
 
         if(screen != 0){
-            hwlib::cout<<"after data "<< (n_screens - screen) <<" \n";
-            for(int i = 1; i < (n_screens - screen); i++){
-                no_op(2);
+//            hwlib::cout<<"\nno op "<< (screen-1) <<" \n";
+            for(int i = 0; i < (screen-1); i++){
+                no_op();
             }
         }
 
-        //hwlib::cout<<"\n";
+//        hwlib::cout<<"\n";
         cs.write(1);
-        hwlib::cout<<"cs 1\n\n";
+        //hwlib::cout<<"cs 1\n\n";
+        hwlib::wait_us(2000);
     }
 
     //send an array of 8 rows of data to 1 screen
@@ -74,16 +75,20 @@ public:
 
     // send 16 zero's as no op
     void no_op(int times = 1){
-        for(int i = 0; i < times*8; i++){
+        for(int i = 0; i < times*16; i++){
             din.write(0);
+            pulse_clk();
         }
+        //hwlib::cout<<"no op\n";
     }
 
-    //send an empty screen via write()
-    void clear(int screen = 0){
+    //empty all screens via write()
+    void clear(){
         hwlib::cout<<"clear\n";
         int zero [8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-        write(zero, screen);
+        for(int i = 1; i < n_screens+1; i++){
+            write(zero, i);
+        }
     }
 //sending data ---------------------------------------------------------------------------------------------    
     
@@ -171,31 +176,35 @@ int main(){
     auto cs = hwlib::target::pin_out( hwlib::target::pins::d9 );
     auto clk = hwlib::target::pin_out( hwlib::target::pins::d10 );
     
-    matrix leds(din, cs, clk, 1);
+    matrix leds(din, cs, clk, 2);
 
     leds.scanlimit8();
     leds.decodemode(); 
     leds.intensity_low();
     leds.shutdown_off();
-    //leds.clear();
+    leds.clear();
     hwlib::cout<<"---------------\n";
     
     hwlib::wait_ms(1000);
 
-    //int letter_A [8] = {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
-    //int green_lantern [8] = { 0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00  };
+    int letter_A [8] =      {0x00, 0x7C, 0x7E, 0x13, 0x13, 0x7E, 0x7C, 0x00};
+    //int green_lantern [8] = {0x00, 0x99, 0xBD, 0xE7, 0xE7, 0xBD, 0x99, 0x00};
+    //int letter_S [8] =      {0x26, 0x6F, 0x4D, 0x59, 0x73, 0x32, 0x00, 0x00};
 
     //leds.write(green_lantern);
 
     //hwlib::wait_ms(1000);
 
-    int testing = 0b0000000101010101;
-    leds.send_data(testing);
+    // int testing = 0b0000000101010101;
+    // leds.send_data(testing);
 
 
-
-    //leds.write(letter_A, 2);
-
+    hwlib::cout<<"letter_A\n";
+    leds.write(letter_A, 1);
+    //hwlib::wait_ms(1000);
+    //hwlib::cout<<"green_lantern\n";
+    //leds.write(letter_S, 1);
+    //leds.write(green_lantern, 3);
 
 
 
