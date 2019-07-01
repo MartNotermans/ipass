@@ -1,6 +1,7 @@
 #ifndef SNAKE_HPP
 #define SNAKE_HPP
 
+#include "matrix.hpp"
 #include "hwlib.hpp"
 
 class snake{
@@ -19,9 +20,9 @@ public:
 
     bool get_pin(hwlib::target::pin_in& button);
 
-    void play();
+    void play(matrix& leds);
 
-    void game_over();
+    void game_over(matrix& leds);
 };
 
 #endif

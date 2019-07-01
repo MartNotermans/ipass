@@ -7,12 +7,19 @@ int main(){
     //cs    pin 9
     //clk   pin 10
     hwlib::wait_ms(500);
+    auto din = hwlib::target::pin_out( hwlib::target::pins::d8 );
+    auto cs = hwlib::target::pin_out( hwlib::target::pins::d9 );
+    auto clk = hwlib::target::pin_out( hwlib::target::pins::d10 );
+    matrix leds(din, cs, clk, 6);
+    leds.set_up();
+
+
 
     auto swleft  = hwlib::target::pin_in (hwlib::target::pins::d36);
     auto swup    = hwlib::target::pin_in (hwlib::target::pins::d32);
     auto swdown  = hwlib::target::pin_in (hwlib::target::pins::d28);
     auto swright = hwlib::target::pin_in (hwlib::target::pins::d24);
-    snake game(swleft, swup, swdown, swright); //scherm meegeven aan snake?
-    game.play();
+    snake game(swleft, swup, swdown, swright);
+    game.play(leds);
     hwlib::cout<<"done\n----------------\n";
 }
