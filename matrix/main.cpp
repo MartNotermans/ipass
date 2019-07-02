@@ -19,7 +19,7 @@ int main(){
     auto swup    = hwlib::target::pin_in (hwlib::target::pins::d32);
     auto swdown  = hwlib::target::pin_in (hwlib::target::pins::d28);
     auto swright = hwlib::target::pin_in (hwlib::target::pins::d24);
-    snake game(swleft, swup, swdown, swright);
-    game.play(leds);
+    snake game(swleft, swup, swdown, swright, leds);
+    game.play();
     hwlib::cout<<"done\n----------------\n";
 }

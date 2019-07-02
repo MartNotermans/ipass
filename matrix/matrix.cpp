@@ -13,7 +13,7 @@
 // }
 
 void matrix::set_up(){
-    for(int i = 1; i <= n_screens; i++){
+    for(int i = 0; i <= n_screens; i++){
         int scanlimit8 = 0xB07;
         int decodemode = 0x900;
         int low  = 0xA00;
@@ -40,9 +40,8 @@ void matrix::send_data(const int data, int screen){
     uint16_t data_b = data;
     cs.write(0);
 
-    //if(screen != 0){
+
         no_op(n_screens-screen);
-    //}
 
     for(int16_t bit_cnt = 15; bit_cnt >= 0; bit_cnt--){
         din.write( (data_b & (1<<bit_cnt) ) !=0 );
@@ -50,9 +49,7 @@ void matrix::send_data(const int data, int screen){
         pulse_clk();
     }
 
-    //if(screen != 0){
         no_op(screen-1);
-    //}
 
     //hwlib::cout<<"\n";
     cs.write(1);

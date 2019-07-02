@@ -10,7 +10,7 @@
 /// \brief
 /// Class to write to a matrix
 /// \details
-/// This is a class to write to an 8*8 led matrix,
+/// This is a class to write to an 7*7 led matrix,
 /// it is intended to be used with the MAX7219 chip.
 /// this class uses hwlib (https://github.com/wovo/hwlib)
 class matrix{
@@ -34,7 +34,7 @@ public:
     {    
         clk.write(0);
         cs.write(1);
-        if(n_screens > 1){
+        if(n_screens > 0){
             hwlib::cout<<"matrix made with "<<n_screens<<" screens\n";
         }else{
             hwlib::cout<<"matrix made with 1 screen\n";
@@ -70,7 +70,7 @@ public:
     /// \brief
     /// Send a dubbel array of boolians to 1 screen
     /// \details
-    /// The function reads an 8*8 array and
+    /// The function reads an 7*7 array and
     /// uses the send_data function to send this to 1 screen.
     void send_array(bool pixels[8][8], int screen);
 

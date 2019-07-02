@@ -7,35 +7,59 @@ bool snake::get_pin(hwlib::target::pin_in& button){
     return button.read();
 }
 
-void snake::play(matrix& leds){
-    int update_speed = 250;
-    bool easy = false;
+void snake::set_screen(int cords[3], bool state){
+    screens[ cords[2] ][cords [0] ][cords[1] ] = state;
+}
 
-    bool empty_screen[8][8] = {
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0},
-                                {0,0,0,0,0,0,0,0}
-                                };
-    
-    bool start_screen[8][8] = {empty_screen};
-    start_screen[0][0] = 1;
-    leds.send_array(start_screen, 1);
+void snake::write_screen(matrix& leds){
+    for(int i = 0; i <= 5; i++){
+        leds.send_array(screens[i], i+1);
+    }
+}
 
-    bool new_screen[8][8] = {empty_screen};
+void snake::update_cords(int cords[3], int temp_way){
+    if(temp_way == 1){//left
+        //hwlib::cout<<"1\n";
+        cords[1] = (cords[1] -1);
+    }
+    if(temp_way == 2){//up
+        //hwlib::cout<<"2\n";
+        cords[0] = (cords[0] -1);
+    }
+    if(temp_way == 3){//down
+        //hwlib::cout<<"3\n";
+        cords[0] = (cords[0] +1);
+    }
+    if(temp_way == 4){//right
+        //hwlib::cout<<"4\n";
+        cords[1] = (cords[1] +1);
+    }
+}
 
-    int snakecords[3] = {0,0,1}; //y, x, screen, always start the game on (0,0) on screen 1.
+void snake::next_screen(int cords[3]){
+    if(cords[1] > 7){//right
+//        int temp_cords[3] = {cords[0],7,cords[2]};
+//        set_screen(temp_cords , 0); //set old position to 0
+        cords[1] = 0; //go to x 0 on new screen
+        cords[2] = cords[2] + 1; //next screen
+    }
+    if(cords[1] < 0){//left
+//        int temp_cords[3] = {cords[0],0,cords[2]};
+//        set_screen(temp_cords, 0);
+        cords[1] = 7; //go to x 7 on new screen
+        cords[2] = cords[2] - 1; //next screen
+    }
+}
 
+void snake::apple(){
+    srand(hwlib::now_us() );
+    applecords[0] = rand() % 8;
+    applecords[1] = rand() % 8;
+    applecords[2] = rand() % 6;
+    set_screen(applecords, 1);
+}
 
-
-    bool sw1 = 0;   //left
-    bool sw2 = 0;   //up
-    bool sw3 = 0;   //down
-    bool sw4 = 1;   //right     always start the game by going right
+void snake::play(){
     for(;;){
         //check witch button is pressed
         for(int i = 0; i < update_speed; i++){
@@ -66,99 +90,91 @@ void snake::play(matrix& leds){
             hwlib::wait_ms(1);
         }
         
-        new_screen[ snakecords[0] ] [ snakecords[1] ] = 0; //set old position to 0
-        //update snakecords
-        if(sw1){//left
-            //hwlib::cout<<"1\n";
-            snakecords[1] = (snakecords[1] -1);
+        if(sw1){
+            way = 1;
         }
-        if(sw2){//up
-            //hwlib::cout<<"2\n";
-            snakecords[0] = (snakecords[0] -1);
+        if(sw2){
+            way = 2;
         }
-        if(sw3){//down
-            //hwlib::cout<<"3\n";
-            snakecords[0] = (snakecords[0] +1);
+        if(sw3){
+            way = 3;
         }
-        if(sw4){//right
-            //hwlib::cout<<"4\n";
-            snakecords[1] = (snakecords[1] +1);
+        if(sw4){
+            way = 4;
         }
 
-        //hwlib::cout<<"y"<<snakecords[0]<<"x"<<snakecords[1]<<"s"<<snakecords[2]<<"-\n";
+        if( (snakecords[0] == applecords[0]) && (snakecords[1] == applecords[1]) && (snakecords[2] == applecords[2]) ){
+            points++;
+            hwlib::cout<<"points "<<points<<"\n";
+            tail[points][0] = applecords[0];
+            tail[points][1] = applecords[1];
+            tail[points][2] = applecords[2];
+            tail_way[points][0] = way;
 
-        //move to next screen
-        if(snakecords[1] > 7){//right
-            bool old_screen[8][8] = {new_screen};
-            old_screen[ snakecords[0] ] [ 7 ] = 0;
-            old_screen[0][0] = 0;
-            leds.send_array(old_screen, snakecords[2]);
-
-            snakecords[1] = 0; //go to pos 0 on new screen
-            snakecords[2] = snakecords[2] + 1; //next screen
-        }
-        if(snakecords[1] < 0){//left
-            bool old_screen[8][8] = {new_screen};
-            old_screen[ snakecords[0] ] [ 0 ] = 0;
-            old_screen[0][0] = 0;
-            leds.send_array(old_screen, snakecords[2]);
-
-            //new_screen[ snakecords[0] ] [ 0 ] = 0;
-            snakecords[1] = 7; //go to pos 0 on new screen
-            snakecords[2] = snakecords[2] - 1; //next screen
-        }
-
-        //hwlib::cout<<"y"<<snakecords[0]<<"x"<<snakecords[1]<<"s"<<snakecords[2]<<"\n";
-
-        if(easy == 1){
-            //if you touch the walls you stand still
-            if(snakecords[0] > 7){//up
-                snakecords[0] = 7;
-            }
-            if(snakecords[1] > 7 && snakecords[2] == 6){//right
-                snakecords[1] = 7;
-            }
-            if(snakecords[0] < 0){//down
-                snakecords[0] = 0;
-            }
-            if(snakecords[1] < 0 && snakecords[2] == 1){//left
-                snakecords[1] = 0;
-            }
-        }else{
-            //game over if you touch the walls
-            if(snakecords[0] > 7){
-                game_over(leds);
-                break;
-            }
-            if(snakecords[2] > 6){
-                game_over(leds);
-                break;
-            }
-            if(snakecords[0] < 0){
-                game_over(leds);
-                break;
-            }
-            if(snakecords[2] < 1){
-                game_over(leds);
-                break;
+            apple();
+            
+            if(update_speed != 20){ //update speed
+                update_speed = update_speed - 10;
             }
         }
 
-        new_screen[ snakecords[0] ] [ snakecords[1] ] = 1; //set new position to 1
-        leds.send_array(new_screen, snakecords[2]);
+        set_screen(snakecords, 0); //set old position to 0
+
+        update_cords(snakecords, way); //update snake position
+
+        //move to next screen?
+        next_screen(snakecords);
+
+        
+
+        //update tail
+        for(int i = 1; i <= points; i++){
+            if(way != tail_way[i][0]){
+                tail_way[i][0] = way;
+            }
+
+            int cords_tail_end[3] = { tail[points][0], tail[points][1], tail[points][2]};
+            set_screen(cords_tail_end, 0);
+            
+            set_screen(tail[i], 1);            
+            update_cords(tail[i], tail_way[i][0]);
+            next_screen(tail[i]);   
+        }
+
+        set_screen(snakecords, 1); //set new position to 1
+
+        //game over if you touch the walls
+        if(snakecords[0] > 7){
+            game_over(leds);
+            break;
+        }
+        if(snakecords[2] > 5){
+            game_over(leds);
+            break;
+        }
+        if(snakecords[0] < 0){
+            game_over(leds);
+            break;
+        }
+        if(snakecords[2] < 0){
+            game_over(leds);
+            break;
+        }
+
+        write_screen(leds);
     }
 }
 
 void snake::game_over(matrix& leds){
     bool letter_G[8][8] = {
                             {0,0,0,0,0,0,0,0},
-                            {0,0,0,1,1,1,0,0},
-                            {0,0,1,1,1,1,1,0},
+                            {0,0,1,1,1,1,0,0},
+                            {0,1,1,0,0,1,1,0},
                             {0,1,1,0,0,0,0,0},
                             {0,1,1,0,1,1,1,0},
                             {0,1,1,0,0,0,1,0},
-                            {0,0,1,1,0,0,1,0},
-                            {0,0,0,1,1,1,0,0}
+                            {0,1,1,0,0,1,1,0},
+                            {0,0,1,1,1,1,0,0}
                             };
 
     bool letter_A[8][8] = {
@@ -227,10 +243,12 @@ void snake::game_over(matrix& leds){
                             {0,1,1,0,0,1,1,0}
                             };
     
-    leds.clear(1);
-    leds.clear(6);
+    for(int i = 1; i <= 6; i++){
+        leds.clear(i);
+        leds.send_data(0xA0F, i);
+    }
 
-    for(;;){
+    for(int i = 0; i < 3; i++){
         leds.send_array(letter_G, 2);
         leds.send_array(letter_A, 3);
         leds.send_array(letter_M, 4);
@@ -241,5 +259,8 @@ void snake::game_over(matrix& leds){
         leds.send_array(letter_E, 4);
         leds.send_array(letter_R, 5);
         hwlib::wait_ms(1000);
+    }
+    for(int i = 0; i <= 5; i++){
+        leds.clear(i);
     }
 }
