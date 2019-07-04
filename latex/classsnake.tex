@@ -1,0 +1,128 @@
+\hypertarget{classsnake}{}\section{snake Class Reference}
+\label{classsnake}\index{snake@{snake}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsnake_abae0d5a04e9c401b215b24cf66d94131}\label{classsnake_abae0d5a04e9c401b215b24cf66d94131}} 
+{\bfseries snake} (hwlib\+::target\+::pin\+\_\+in swleft, hwlib\+::target\+::pin\+\_\+in swup, hwlib\+::target\+::pin\+\_\+in swdown, hwlib\+::target\+::pin\+\_\+in swright, \hyperlink{classmatrix}{matrix} \&leds)
+\item 
+bool \hyperlink{classsnake_a029848ef2666410aa614fd15164098b3}{get\+\_\+pin} (hwlib\+::target\+::pin\+\_\+in \&\hyperlink{classsnake_a5097f60b9b688f68f512d721b1e5700a}{button})
+\begin{DoxyCompactList}\small\item\em get a boolean from a pin \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_a5097f60b9b688f68f512d721b1e5700a}{button} ()
+\begin{DoxyCompactList}\small\item\em check which button is last pressed \end{DoxyCompactList}\item 
+bool \hyperlink{classsnake_a0933aa0958514b5181b782e73a2ac14f}{equals} (int lhs\mbox{[}3\mbox{]}, int rhs\mbox{[}3\mbox{]})
+\begin{DoxyCompactList}\small\item\em compare 2 array\mbox{[}3\mbox{]} \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_a839b285241756087e4555f7629f85b56}{set\+\_\+screen} (int cords\mbox{[}3\mbox{]}, bool state)
+\begin{DoxyCompactList}\small\item\em set a coordinate on or off \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsnake_af35f73d7294038a6a3e980708a23dcc6}\label{classsnake_af35f73d7294038a6a3e980708a23dcc6}} 
+void \hyperlink{classsnake_af35f73d7294038a6a3e980708a23dcc6}{write\+\_\+screen} (\hyperlink{classmatrix}{matrix} \&leds)
+\begin{DoxyCompactList}\small\item\em write the screen array to the matrix using send array \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_a1f937902d3c8ebca239718ffedae8a10}{update\+\_\+cords} (int cords\mbox{[}3\mbox{]}, int temp\+\_\+way)
+\begin{DoxyCompactList}\small\item\em update coordinates based on movement \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_abfcdd38b48ecc4e5d14d1f0503bc3c5c}{next\+\_\+screen} (int cords\mbox{[}3\mbox{]})
+\begin{DoxyCompactList}\small\item\em check if a cord is going to move to another screen \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_adc7f22b197d4003dc39eb6d02504a789}{apple} ()
+\begin{DoxyCompactList}\small\item\em make a new apple \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_aa0125208393f6d3a7b25ea2a2afcf253}{play} ()
+\begin{DoxyCompactList}\small\item\em endless loop with game logic \end{DoxyCompactList}\item 
+void \hyperlink{classsnake_ab0a41a85507415018d8f6d6c9e6fb42c}{game\+\_\+over} (\hyperlink{classmatrix}{matrix} \&leds)
+\begin{DoxyCompactList}\small\item\em flash game over and stop the program \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classsnake_adc7f22b197d4003dc39eb6d02504a789}\label{classsnake_adc7f22b197d4003dc39eb6d02504a789}} 
+\index{snake@{snake}!apple@{apple}}
+\index{apple@{apple}!snake@{snake}}
+\subsubsection{\texorpdfstring{apple()}{apple()}}
+{\footnotesize\ttfamily void snake\+::apple (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+make a new apple 
+
+updates the cordinates of apple to a new random position on the screen \mbox{\Hypertarget{classsnake_a5097f60b9b688f68f512d721b1e5700a}\label{classsnake_a5097f60b9b688f68f512d721b1e5700a}} 
+\index{snake@{snake}!button@{button}}
+\index{button@{button}!snake@{snake}}
+\subsubsection{\texorpdfstring{button()}{button()}}
+{\footnotesize\ttfamily void snake\+::button (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+check which button is last pressed 
+
+changes the 4 sw booleans to the right value changes the way int to the right value \mbox{\Hypertarget{classsnake_a0933aa0958514b5181b782e73a2ac14f}\label{classsnake_a0933aa0958514b5181b782e73a2ac14f}} 
+\index{snake@{snake}!equals@{equals}}
+\index{equals@{equals}!snake@{snake}}
+\subsubsection{\texorpdfstring{equals()}{equals()}}
+{\footnotesize\ttfamily bool snake\+::equals (\begin{DoxyParamCaption}\item[{int}]{lhs\mbox{[}3\mbox{]},  }\item[{int}]{rhs\mbox{[}3\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+compare 2 array\mbox{[}3\mbox{]} 
+
+retrun true if 2 coordinates are the same \mbox{\Hypertarget{classsnake_ab0a41a85507415018d8f6d6c9e6fb42c}\label{classsnake_ab0a41a85507415018d8f6d6c9e6fb42c}} 
+\index{snake@{snake}!game\+\_\+over@{game\+\_\+over}}
+\index{game\+\_\+over@{game\+\_\+over}!snake@{snake}}
+\subsubsection{\texorpdfstring{game\+\_\+over()}{game\_over()}}
+{\footnotesize\ttfamily void snake\+::game\+\_\+over (\begin{DoxyParamCaption}\item[{\hyperlink{classmatrix}{matrix} \&}]{leds }\end{DoxyParamCaption})}
+
+
+
+flash game over and stop the program 
+
+the play function calls this function if the game is over it will flash game over and stop the program \mbox{\Hypertarget{classsnake_a029848ef2666410aa614fd15164098b3}\label{classsnake_a029848ef2666410aa614fd15164098b3}} 
+\index{snake@{snake}!get\+\_\+pin@{get\+\_\+pin}}
+\index{get\+\_\+pin@{get\+\_\+pin}!snake@{snake}}
+\subsubsection{\texorpdfstring{get\+\_\+pin()}{get\_pin()}}
+{\footnotesize\ttfamily bool snake\+::get\+\_\+pin (\begin{DoxyParamCaption}\item[{hwlib\+::target\+::pin\+\_\+in \&}]{button }\end{DoxyParamCaption})}
+
+
+
+get a boolean from a pin 
+
+used to read the buttons to control the snake\textquotesingle{}s movement \mbox{\Hypertarget{classsnake_abfcdd38b48ecc4e5d14d1f0503bc3c5c}\label{classsnake_abfcdd38b48ecc4e5d14d1f0503bc3c5c}} 
+\index{snake@{snake}!next\+\_\+screen@{next\+\_\+screen}}
+\index{next\+\_\+screen@{next\+\_\+screen}!snake@{snake}}
+\subsubsection{\texorpdfstring{next\+\_\+screen()}{next\_screen()}}
+{\footnotesize\ttfamily void snake\+::next\+\_\+screen (\begin{DoxyParamCaption}\item[{int}]{cords\mbox{[}3\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+check if a cord is going to move to another screen 
+
+this function checks if the given cordinate is going to move to another screen if this is the case, the function will change the coordinates to the next screen \mbox{\Hypertarget{classsnake_aa0125208393f6d3a7b25ea2a2afcf253}\label{classsnake_aa0125208393f6d3a7b25ea2a2afcf253}} 
+\index{snake@{snake}!play@{play}}
+\index{play@{play}!snake@{snake}}
+\subsubsection{\texorpdfstring{play()}{play()}}
+{\footnotesize\ttfamily void snake\+::play (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+endless loop with game logic 
+
+call this function to start the game it has an endless loop which calls all the other functions in orther to play the game \mbox{\Hypertarget{classsnake_a839b285241756087e4555f7629f85b56}\label{classsnake_a839b285241756087e4555f7629f85b56}} 
+\index{snake@{snake}!set\+\_\+screen@{set\+\_\+screen}}
+\index{set\+\_\+screen@{set\+\_\+screen}!snake@{snake}}
+\subsubsection{\texorpdfstring{set\+\_\+screen()}{set\_screen()}}
+{\footnotesize\ttfamily void snake\+::set\+\_\+screen (\begin{DoxyParamCaption}\item[{int}]{cords\mbox{[}3\mbox{]},  }\item[{bool}]{state }\end{DoxyParamCaption})}
+
+
+
+set a coordinate on or off 
+
+sets a coordinate on or of in the screen array set the screen before sending the data \mbox{\Hypertarget{classsnake_a1f937902d3c8ebca239718ffedae8a10}\label{classsnake_a1f937902d3c8ebca239718ffedae8a10}} 
+\index{snake@{snake}!update\+\_\+cords@{update\+\_\+cords}}
+\index{update\+\_\+cords@{update\+\_\+cords}!snake@{snake}}
+\subsubsection{\texorpdfstring{update\+\_\+cords()}{update\_cords()}}
+{\footnotesize\ttfamily void snake\+::update\+\_\+cords (\begin{DoxyParamCaption}\item[{int}]{cords\mbox{[}3\mbox{]},  }\item[{int}]{temp\+\_\+way }\end{DoxyParamCaption})}
+
+
+
+update coordinates based on movement 
+
+updates the position of a coordinate in a given direction used to update tail\mbox{[}0\mbox{]}, the head of the snake 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+matrix/\hyperlink{snake_8hpp}{snake.\+hpp}\item 
+matrix/snake.\+cpp\end{DoxyCompactItemize}

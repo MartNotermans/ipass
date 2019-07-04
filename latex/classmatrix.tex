@@ -1,0 +1,113 @@
+\hypertarget{classmatrix}{}\section{matrix Class Reference}
+\label{classmatrix}\index{matrix@{matrix}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmatrix_a03241010eb16439dc4cb6a4d9853b7e3}{matrix} (hwlib\+::target\+::pin\+\_\+out \&din, hwlib\+::target\+::pin\+\_\+out \&cs, hwlib\+::target\+::pin\+\_\+out \&clk, int n\+\_\+screens=6)
+\begin{DoxyCompactList}\small\item\em Constructor to make a matrix. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_aa0f47978368c703d5fb2e5cdbdab2337}{set\+\_\+up} ()
+\begin{DoxyCompactList}\small\item\em Initialise all screens. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_a3fa696e5612f375afe4d3d39fd1131ae}{pulse\+\_\+clk} ()
+\begin{DoxyCompactList}\small\item\em Pulse the clock once. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_a58b6def7e8de92f912efd37c329869f0}{send\+\_\+data} (const int data, int screen=1)
+\begin{DoxyCompactList}\small\item\em Send 16 bits to 1 screen. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_a571b55cd680b70d9deb30aa8db10bfb9}{send\+\_\+array} (bool pixels\mbox{[}8\mbox{]}\mbox{[}8\mbox{]}, int screen)
+\begin{DoxyCompactList}\small\item\em Send a dubbel array of boolians to 1 screen. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_aa61545802b99cc45f59940b4c3303a20}{no\+\_\+op} (int times=1)
+\begin{DoxyCompactList}\small\item\em Send 16 zero\textquotesingle{}s as no op. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_a0af6c04210bda572dcbaeb6e91c20861}{clear} (int screen)
+\begin{DoxyCompactList}\small\item\em Clear 1 screen. \end{DoxyCompactList}\item 
+void \hyperlink{classmatrix_a8403a5d8bc178bf856a1a2658a8f8656}{flash} (int times=3, int speed=150)
+\begin{DoxyCompactList}\small\item\em Flash all screens. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmatrix_a03241010eb16439dc4cb6a4d9853b7e3}\label{classmatrix_a03241010eb16439dc4cb6a4d9853b7e3}} 
+\index{matrix@{matrix}!matrix@{matrix}}
+\index{matrix@{matrix}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{matrix()}{matrix()}}
+{\footnotesize\ttfamily matrix\+::matrix (\begin{DoxyParamCaption}\item[{hwlib\+::target\+::pin\+\_\+out \&}]{din,  }\item[{hwlib\+::target\+::pin\+\_\+out \&}]{cs,  }\item[{hwlib\+::target\+::pin\+\_\+out \&}]{clk,  }\item[{int}]{n\+\_\+screens = {\ttfamily 6} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor to make a matrix. 
+
+This constructor makes a matrix with\+: data in pin, chip select pin, clock pin, \textquotesingle{}x\textquotesingle{} number of screens. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classmatrix_a0af6c04210bda572dcbaeb6e91c20861}\label{classmatrix_a0af6c04210bda572dcbaeb6e91c20861}} 
+\index{matrix@{matrix}!clear@{clear}}
+\index{clear@{clear}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void matrix\+::clear (\begin{DoxyParamCaption}\item[{int}]{screen }\end{DoxyParamCaption})}
+
+
+
+Clear 1 screen. 
+
+Send an empty screen using the send\+\_\+array function \mbox{\Hypertarget{classmatrix_a8403a5d8bc178bf856a1a2658a8f8656}\label{classmatrix_a8403a5d8bc178bf856a1a2658a8f8656}} 
+\index{matrix@{matrix}!flash@{flash}}
+\index{flash@{flash}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{flash()}{flash()}}
+{\footnotesize\ttfamily void matrix\+::flash (\begin{DoxyParamCaption}\item[{int}]{times = {\ttfamily 3},  }\item[{int}]{speed = {\ttfamily 150} }\end{DoxyParamCaption})}
+
+
+
+Flash all screens. 
+
+Flash all screens by changing the brightness \textquotesingle{}x\textquotesingle{} times at \textquotesingle{}y\textquotesingle{} speed \mbox{\Hypertarget{classmatrix_aa61545802b99cc45f59940b4c3303a20}\label{classmatrix_aa61545802b99cc45f59940b4c3303a20}} 
+\index{matrix@{matrix}!no\+\_\+op@{no\+\_\+op}}
+\index{no\+\_\+op@{no\+\_\+op}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{no\+\_\+op()}{no\_op()}}
+{\footnotesize\ttfamily void matrix\+::no\+\_\+op (\begin{DoxyParamCaption}\item[{int}]{times = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Send 16 zero\textquotesingle{}s as no op. 
+
+The M\+A\+X7219 is desined to ignore no\+\_\+op data. This is so you can push data to daisy changed screens \mbox{\Hypertarget{classmatrix_a3fa696e5612f375afe4d3d39fd1131ae}\label{classmatrix_a3fa696e5612f375afe4d3d39fd1131ae}} 
+\index{matrix@{matrix}!pulse\+\_\+clk@{pulse\+\_\+clk}}
+\index{pulse\+\_\+clk@{pulse\+\_\+clk}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{pulse\+\_\+clk()}{pulse\_clk()}}
+{\footnotesize\ttfamily void matrix\+::pulse\+\_\+clk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pulse the clock once. 
+
+This function sets the clock high for 3 us (micro seconds), the total time of 1 clock pulse is 6 us. \mbox{\Hypertarget{classmatrix_a571b55cd680b70d9deb30aa8db10bfb9}\label{classmatrix_a571b55cd680b70d9deb30aa8db10bfb9}} 
+\index{matrix@{matrix}!send\+\_\+array@{send\+\_\+array}}
+\index{send\+\_\+array@{send\+\_\+array}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{send\+\_\+array()}{send\_array()}}
+{\footnotesize\ttfamily void matrix\+::send\+\_\+array (\begin{DoxyParamCaption}\item[{bool}]{pixels\mbox{[}8\mbox{]}\mbox{[}8\mbox{]},  }\item[{int}]{screen }\end{DoxyParamCaption})}
+
+
+
+Send a dubbel array of boolians to 1 screen. 
+
+The function reads an 7$\ast$7 array and uses the send\+\_\+data function to send this to 1 screen. \mbox{\Hypertarget{classmatrix_a58b6def7e8de92f912efd37c329869f0}\label{classmatrix_a58b6def7e8de92f912efd37c329869f0}} 
+\index{matrix@{matrix}!send\+\_\+data@{send\+\_\+data}}
+\index{send\+\_\+data@{send\+\_\+data}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{send\+\_\+data()}{send\_data()}}
+{\footnotesize\ttfamily void matrix\+::send\+\_\+data (\begin{DoxyParamCaption}\item[{const int}]{data,  }\item[{int}]{screen = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Send 16 bits to 1 screen. 
+
+The first 8 bits are the adress, it says line we are writing on. The next 8 bits are on/off boolians. It uses the no\+\_\+op function to sens the data to the right screen. \mbox{\Hypertarget{classmatrix_aa0f47978368c703d5fb2e5cdbdab2337}\label{classmatrix_aa0f47978368c703d5fb2e5cdbdab2337}} 
+\index{matrix@{matrix}!set\+\_\+up@{set\+\_\+up}}
+\index{set\+\_\+up@{set\+\_\+up}!matrix@{matrix}}
+\subsubsection{\texorpdfstring{set\+\_\+up()}{set\_up()}}
+{\footnotesize\ttfamily void matrix\+::set\+\_\+up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initialise all screens. 
+
+This function does every thing to make all the screens operational. It sets the scanlimit to 8, sets decode mode off, sets brightness to low, turns shutdown off and clears all the screens. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+matrix/\hyperlink{matrix_8hpp}{matrix.\+hpp}\item 
+matrix/matrix.\+cpp\end{DoxyCompactItemize}

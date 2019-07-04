@@ -1,3 +1,10 @@
+//          Copyright Mart Notermans 2019.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          https://www.boost.org/LICENSE_1_0.txt)
+
+
+
 #include "hwlib.hpp"
 #include "matrix.hpp"
 #include "snake.hpp"
@@ -21,5 +28,5 @@ int main(){
     auto swright = hwlib::target::pin_in (hwlib::target::pins::d24);
     snake game(swleft, swup, swdown, swright, leds);
     game.play();
-    hwlib::cout<<"done\n----------------\n";
+    hwlib::cout<<"done";
 }

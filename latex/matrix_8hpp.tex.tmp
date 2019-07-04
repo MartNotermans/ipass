@@ -1,0 +1,23 @@
+\hypertarget{matrix_8hpp}{}\section{matrix/matrix.hpp File Reference}
+\label{matrix_8hpp}\index{matrix/matrix.\+hpp@{matrix/matrix.\+hpp}}
+
+
+Class to write to a matrix.  
+
+
+{\ttfamily \#include \char`\"{}hwlib.\+hpp\char`\"{}}\newline
+Include dependency graph for matrix.\+hpp\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmatrix}{matrix}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to write to a matrix. 
+
+This is a class to write to an 7$\ast$7 led matrix, it is intended to be used with the M\+A\+X7219 chip. this class uses hwlib (\href{https://github.com/wovo/hwlib}{\tt https\+://github.\+com/wovo/hwlib}) 

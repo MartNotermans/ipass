@@ -1,16 +1,11 @@
+//          Copyright Mart Notermans 2019.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          https://www.boost.org/LICENSE_1_0.txt)
+
+
 #include "hwlib.hpp"
 #include "matrix.hpp"
-
-// matrix::matrix(hwlib::target::pin_out &din, hwlib::target::pin_out &cs, hwlib::target::pin_out &clk, int n_screens = 6){
-//     clk.write(0);
-//     cs.write(1);
-//     if(n_screens > 1){
-//         hwlib::cout<<"matrix made with "<<n_screens<<" screens\n";
-//     }else{
-//         hwlib::cout<<"matrix made with 1 screen\n";
-//     }
-//     hwlib::wait_ms(250);
-// }
 
 void matrix::set_up(){
     for(int i = 0; i <= n_screens; i++){
